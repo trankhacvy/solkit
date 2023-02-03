@@ -1,0 +1,13 @@
+{
+  "exclude": ["node_modules"],
+  "extends": "tsconfig/nextjs.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "react": ["./node_modules/@types/react"],
+      "components": ["../../packages/ui/src/components"]
+    }
+  },
+  "include": ["src", "next-env.d.ts"]
+}
