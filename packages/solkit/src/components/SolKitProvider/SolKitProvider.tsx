@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { useApplyTheme } from "../../hooks/useApplyTheme";
-import { SolkitTheme } from "../../themes/types";
+import { ThemeConfig } from "../../themes/types";
 import createContext from "../../utils/createContext";
 import {
   ModalSizeContextProvider,
@@ -11,7 +11,7 @@ import { ModalContextProvider } from "./ModalContextProvider";
 
 export interface SolKitContextValues {
   size: ModalSizes;
-  showDomainName?: boolean;
+  showDomainName: boolean;
 }
 
 const [Provider, useSolKitContext] = createContext<SolKitContextValues>();
@@ -19,7 +19,7 @@ const [Provider, useSolKitContext] = createContext<SolKitContextValues>();
 interface SolKitProviderProps {
   size?: ModalSizes;
   showDomainName?: boolean;
-  theme?: SolkitTheme;
+  theme?: ThemeConfig;
 }
 
 export const SolKitProvider = ({

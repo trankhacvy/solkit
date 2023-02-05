@@ -16,6 +16,7 @@ import { useGetCoinPrice } from "../../hooks/useGetCoinPrice";
 import { useGetSNS } from "../../hooks/useGetSNS";
 import { IconButton } from "../shared/IconButton";
 import IconClose from "../../assets/close";
+import { useSolKitContext } from "../SolKitProvider";
 
 export interface AccountModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export interface AccountModalProps {
 export const AccountModal = ({ isOpen, onOpenChange }: AccountModalProps) => {
   const { publicKey, connected, disconnect } = useWallet();
   const { connection } = useConnection();
+  const { showDomainName } = useSolKitContext();
   const { sol, isLoading: isBalanceLoading } = useWalletBalance(
     publicKey,
     connection
@@ -38,6 +40,84 @@ export const AccountModal = ({ isOpen, onOpenChange }: AccountModalProps) => {
   const { closeAccountModal } = useModalContext();
 
   if (!publicKey || !connected) return null;
+
+  let addressAndDomainName = null;
+  if (!showDomainName) {
+    addressAndDomainName = (
+      <Button
+        css={{
+          p: "0px",
+          minHeight: "auto",
+          bc: "transparent",
+        }}
+        onClick={onCopy}
+      >
+        <Text size={"h6"} fontWeight={"bold"}>
+          {truncate(publicKey?.toBase58() ?? "", 8, true)}
+        </Text>
+        <Flex
+          align="center"
+          justify="center"
+          css={{
+            size: "24px",
+            ml: "4px",
+            fontSize: "$h6",
+            color: hasCopied ? "green" : "$primaryText",
+          }}
+        >
+          {hasCopied ? <CheckCircleIcon /> : <CopyIcon />}
+        </Flex>
+      </Button>
+    );
+  } else if (isDomainNameLoading) {
+    addressAndDomainName = (
+      <Skeleton
+        css={{
+          width: "60px",
+          height: "24px",
+          br: "6px",
+        }}
+      />
+    );
+  } else {
+    addressAndDomainName = (
+      <Box>
+        {domainName && (
+          <Text size="h6" fontWeight="bold">
+            {domainName}
+          </Text>
+        )}
+
+        <Button
+          css={{
+            p: "0px",
+            minHeight: "auto",
+            bc: "transparent",
+          }}
+          onClick={onCopy}
+        >
+          <Text
+            size={!domainName ? "h6" : "body2"}
+            fontWeight={domainName ? "medium" : "bold"}
+          >
+            {truncate(publicKey?.toBase58() ?? "", 8, true)}
+          </Text>
+          <Flex
+            align="center"
+            justify="center"
+            css={{
+              size: "24px",
+              ml: "4px",
+              fontSize: "$h6",
+              color: hasCopied ? "green" : "$primaryText",
+            }}
+          >
+            {hasCopied ? <CheckCircleIcon /> : <CopyIcon />}
+          </Flex>
+        </Button>
+      </Box>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -59,51 +139,7 @@ export const AccountModal = ({ isOpen, onOpenChange }: AccountModalProps) => {
         </DialogClose>
 
         <Flex css={{ mt: "40px" }} justify="between">
-          {isDomainNameLoading ? (
-            <Skeleton
-              css={{
-                width: "60px",
-                height: "24px",
-                br: "6px",
-              }}
-            />
-          ) : (
-            <Box>
-              {domainName && (
-                <Text size="h6" fontWeight="bold">
-                  {domainName}
-                </Text>
-              )}
-
-              <Button
-                css={{
-                  p: "0px",
-                  minHeight: "auto",
-                  bc: "transparent",
-                }}
-                onClick={onCopy}
-              >
-                <Text
-                  size={!domainName ? "h6" : "body2"}
-                  fontWeight={domainName ? "medium" : "bold"}
-                >
-                  {truncate(publicKey?.toBase58() ?? "", 8, true)}
-                </Text>
-                <Flex
-                  align="center"
-                  justify="center"
-                  css={{
-                    size: "24px",
-                    ml: "4px",
-                    fontSize: "$h6",
-                    color: hasCopied ? "green" : "$primaryText",
-                  }}
-                >
-                  {hasCopied ? <CheckCircleIcon /> : <CopyIcon />}
-                </Flex>
-              </Button>
-            </Box>
-          )}
+          {addressAndDomainName}
 
           <Box
             css={{

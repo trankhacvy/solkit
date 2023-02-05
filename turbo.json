@@ -5,6 +5,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "playground#build": {
+      "dependsOn": ["^build"],
+      "env": ["NEXT_PUBLIC_RPC_URL"],
+      "outputs": [".next/**"]
+    },
     "lint": {
       "outputs": []
     },

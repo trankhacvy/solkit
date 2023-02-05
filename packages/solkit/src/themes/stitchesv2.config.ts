@@ -33,13 +33,12 @@ export type CSS = Stitches.CSS<typeof config>;
 export type { VariantProps } from "@stitches/react";
 export type CreateTheme = ReturnType<typeof createThemeBase>;
 
-export const createTheme = ({ type, theme, className }: SolkitTheme) => {
+export const createTheme = ({ type, theme }: SolkitTheme) => {
   if (!type) {
     throw new Error("Theme type is required");
   }
 
   return createThemeBase(
-    className || `${type}-theme`,
     merge(type === "dark" ? darkTheme : lightTheme, theme)
   );
 };

@@ -11,6 +11,7 @@ import { Flex } from "../shared/Flex";
 import { useWalletBalance } from "../../hooks/useWalletBalance";
 import { Skeleton } from "../shared/Skeleton";
 import { useGetSNS } from "../../hooks/useGetSNS";
+import { useSolKitContext } from "../SolKitProvider";
 
 export interface ConnectButtonProps {
   showBalance?: boolean;
@@ -51,6 +52,7 @@ const ConnectedButton = ({
   onClick,
 }: ConnectedButtonProps) => {
   const { connection } = useConnection();
+  const { showDomainName } = useSolKitContext();
   const { sol, isLoading } = useWalletBalance(
     publicKey as PublicKey | null,
     connection
@@ -59,6 +61,25 @@ const ConnectedButton = ({
     publicKey as PublicKey | null,
     connection
   );
+
+  let addressOrDomainName = null;
+  if (!showDomainName) {
+    addressOrDomainName = (
+      <Text fontWeight="bold">
+        {truncate(publicKey?.toBase58() ?? "", 8, true)}
+      </Text>
+    );
+  } else if (isDomainNameLoading) {
+    addressOrDomainName = (
+      <Skeleton css={{ width: "96px", height: "24px", br: "4px" }} />
+    );
+  } else {
+    addressOrDomainName = (
+      <Text fontWeight="bold">
+        {domainName ?? truncate(publicKey?.toBase58() ?? "", 8, true)}
+      </Text>
+    );
+  }
 
   return (
     <Button
@@ -129,14 +150,7 @@ const ConnectedButton = ({
               background: "linear-gradient(to right, #f953c6, #b91d73)",
             }}
           />
-          {isDomainNameLoading ? (
-            <Skeleton css={{ width: "96px", height: "24px", br: "4px" }} />
-          ) : (
-            <Text fontWeight="bold">
-              {domainName ?? truncate(publicKey?.toBase58() ?? "", 8, true)}
-            </Text>
-          )}
-
+          {addressOrDomainName}
           <Box
             css={{
               br: "$full",

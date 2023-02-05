@@ -1,3 +1,4 @@
+import { } from './stitchesv2.config'
 /** Configuration Interface */
 declare namespace ConfigType {
   /** Theme interface. */
@@ -36,3 +37,10 @@ export type SolkitTheme = {
   className?: string;
   theme?: BaseTheme;
 };
+
+export type ThemeConfigWithDarkMode = {
+  lightMode?: SolkitTheme;
+  darkMode?: SolkitTheme;
+};
+
+export type ThemeConfig = SolkitTheme | ThemeConfigWithDarkMode;

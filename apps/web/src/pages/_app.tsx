@@ -15,17 +15,8 @@ import {
   solflareWallet,
   solletWallet,
   torusWallet,
-  createTheme,
 } from "@husky/solkit";
 import { ThemeProvider } from "next-themes";
-
-const light = createTheme({
-  type: "light",
-});
-
-const dark = createTheme({
-  type: "dark",
-});
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const wallets = useMemo(
@@ -44,14 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   );
 
   return (
-    <ThemeProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: light.className,
-        dark: dark.className,
-      }}
-    >
+    <ThemeProvider defaultTheme="light" attribute="class">
       <ConnectionProvider endpoint={process.env.NEXT_PUBLIC_RPC_URL!}>
         <WalletProvider wallets={wallets} autoConnect>
           <Component {...pageProps} />
