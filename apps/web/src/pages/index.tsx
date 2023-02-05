@@ -91,7 +91,7 @@ export default function Home() {
   }, [brandColor, radius, theme]);
 
   return (
-    <div className="max-w-screen-lg relative mx-auto py-10 md:py-20 px-4 md:px-6">
+    <div className="max-w-screen-lg relative mx-auto my-10 md:my-20 p-4 md:px-6 md:py-10 bg-white rounded-xl shadow-lg">
       <div className="prose prose-slate dark:prose-invert">
         <h1>Solkit</h1>
         <p className="text-lg max-w-[50ch] font-semibold">

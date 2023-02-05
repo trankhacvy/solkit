@@ -4,6 +4,26 @@
 
 @layer base {
   body {
-    @apply antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900;
+    @apply antialiased text-slate-500 dark:text-slate-400;
+    background: radial-gradient(
+        farthest-side at 0px 0px,
+        rgb(99, 96, 255),
+        rgba(255, 255, 255, 0) 100%
+      ),
+      radial-gradient(
+        farthest-side at 100% 0px,
+        rgb(192, 97, 247),
+        rgba(255, 255, 255, 0) 100%
+      ),
+      radial-gradient(
+        farthest-side at 0px 100%,
+        rgb(40, 219, 209) 25%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      radial-gradient(
+        farthest-side at 100% 100%,
+        rgb(254, 111, 92) 25%,
+        rgba(255, 255, 255, 0) 100%
+      );
   }
 }
